@@ -11,6 +11,8 @@ public class BattleSystem : MonoBehaviour
 
     public GameState currentState;
 
+    Initiative initiativeScript;
+
     public GameObject playerPrefab, enemyPrefab, enemySecondPrefab;
 
     //ON SCREEN INDICATOR
@@ -108,7 +110,7 @@ public class BattleSystem : MonoBehaviour
     }
 
     //PLAYER TURN
-    void PlayerTurn()
+    public void PlayerTurn()
     {
 
     }
@@ -421,7 +423,7 @@ public class BattleSystem : MonoBehaviour
         else if (currentState == GameState.LOSS)
         {
             Debug.Log("You Lost");
-
+            
         }
 
     }
