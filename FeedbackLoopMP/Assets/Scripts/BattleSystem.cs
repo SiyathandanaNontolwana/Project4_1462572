@@ -214,7 +214,7 @@ public class BattleSystem : MonoBehaviour
     {
 
 
-        playerUnit.Heal(5);
+        playerUnit.Heal(20);
         Instantiate(playerHealEffect, new Vector3(-6.5f, -1.75f, 0), Quaternion.identity);
         playerHUD.setHP(playerUnit.currentHP);
         /*
@@ -296,7 +296,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SecondEnemyTurn()
     {
-        int enemyHealRoll = ((int)Random.Range(1,20) + attackClickCounter) - 7;
+        int enemyHealRoll = ((int)Random.Range(1,20) + attackClickCounter) - 5;
         Debug.Log(enemyHealRoll);
         yield return new WaitForSeconds(1f);
 

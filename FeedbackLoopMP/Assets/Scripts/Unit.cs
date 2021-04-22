@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        critModifier = damage * critAmount;
+        critModifier = damage * critAmount/2;
     }
 
     public bool TakeDamage(int damage)

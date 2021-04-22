@@ -50,8 +50,8 @@ MonoBehaviour:
   critModifier: 0
   critAmount: 0
   disarmChance: 0
-  maxHP: 250
-  currentHP: 250
+  maxHP: 100
+  currentHP: 100
 --- !u!1 &8971865145009564062
 GameObject:
   m_ObjectHideFlags: 0
