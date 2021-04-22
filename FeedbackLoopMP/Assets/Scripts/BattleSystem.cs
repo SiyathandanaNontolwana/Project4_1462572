@@ -14,6 +14,7 @@ public class BattleSystem : MonoBehaviour
     Initiative initiativeScript;
 
     public GameObject playerPrefab, enemyPrefab, enemySecondPrefab;
+    private int attackClickCounter = 0;
 
     //ON SCREEN INDICATOR
     public GameObject playerTurnText, enemyTurnText, enemyDisarmedText;
@@ -99,6 +100,7 @@ public class BattleSystem : MonoBehaviour
         enemySecondUnit = enemySecondGameObject.GetComponent<Unit>();
 
 
+        attackClickCounter = 0;
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
         enemySecondHUD.SetHUD(enemySecondUnit);
@@ -127,7 +129,7 @@ public class BattleSystem : MonoBehaviour
 
         enemyHUD.setHP(enemyUnit.currentHP);
         enemySecondHUD.setHP(enemySecondUnit.currentHP);
-        Debug.Log(enemyUnit.currentHP);
+        //Debug.Log(enemyUnit.currentHP);
         yield return new WaitForSeconds(1f);
 
         //Check if enemy is dead
@@ -215,7 +217,7 @@ public class BattleSystem : MonoBehaviour
         playerUnit.Heal(5);
         Instantiate(playerHealEffect, new Vector3(-6.5f, -1.75f, 0), Quaternion.identity);
         playerHUD.setHP(playerUnit.currentHP);
-
+        /*
         if(enemySecondUnit.currentHP >= 0f)
         {
             enemySecondUnit.Heal(5);
@@ -226,7 +228,7 @@ public class BattleSystem : MonoBehaviour
         {
             enemySecondUnit.Heal(0);
         }
-
+        */
 
         yield return new WaitForSeconds(1f);
         currentState = GameState.ENEMY;
@@ -262,7 +264,7 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+        bool isDead = playerUnit.TakeDamage(enemyUnit.damage + attackClickCounter);
         shake.cameraShake();
 
         playerHUD.setHP(playerUnit.currentHP);
@@ -294,13 +296,25 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SecondEnemyTurn()
     {
-
+        int enemyHealRoll = ((int)Random.Range(1,20) + attackClickCounter) - 7;
+        Debug.Log(enemyHealRoll);
         yield return new WaitForSeconds(1f);
 
         bool isDead = playerUnit.TakeDamage(enemySecondUnit.damage);
         shake.cameraShake();
 
         playerHUD.setHP(playerUnit.currentHP);
+
+        if (enemyHealRoll >= 18 && enemyHealRoll < 20)
+        {
+            enemySecondUnit.Heal(5);
+            Instantiate(enemyHealEffect, new Vector3(3f, -2.5f, 0), Quaternion.identity);
+            enemySecondHUD.setHP(enemySecondUnit.currentHP);
+        }
+        else
+        {
+            enemySecondUnit.Heal(0);
+        }
 
         if (isDead)
         {
@@ -327,7 +341,10 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         else
+            attackClickCounter++;
+        Debug.Log(attackClickCounter);
             StartCoroutine(PlayerAttack());
+
     }
 
     public void HealButton()
